@@ -1,0 +1,269 @@
+{% extends 'layout.html' %} {% block body %}
+
+<style>
+
+    html body {
+      background-color: rgb(206, 206, 228);
+
+      
+  }
+
+  
+</style>
+<!--Form Section-->
+<br /><br />
+<h2 style="text-align: center; margin: 0px; color: black">
+  <b>Find Aprroximate yield for crop that grown in your farm</b>
+</h2>
+<br />
+
+<div
+  style="
+    width: 350px;
+    height: 50rem;
+    margin: 0px auto;
+    color: black;
+    border-radius: 25px;
+    padding: 10px 10px;
+  "
+>
+
+  <form method="POST" action="{{ url_for('yeild_predict') }}">
+
+    <div class="form-group">
+
+      <label for="Year" style="font-size: 17px"><b>year</b></label>
+      <input type="number" name="year" class="form-control" placeholder="enter year" >
+    </div>
+
+    <div class="form-group">
+      <label for="PIN_code" style="font-size: 17px"><b>PIN_code</b></label>
+      <input
+        type="number"
+        class="form-control"
+        id="Pin_cod"
+        name="Pin_code"
+        value="{{pin}}"
+        style="font-weight: bold"
+        placeholder="enter area PIN code"
+        
+      />
+    </div>
+
+    <div class="form-group">
+
+      <label for="season">Season</label>
+
+                <select name="season" id="season"  class="form-control">
+                  <!-- <option value="1">Autumn</option> -->
+                  <option value="0">Kharif</option>
+                  <option value="1">Rabi</option>
+                  <option value="2">Summer</option>
+                  <option value="3">Whole Year</option>
+                  <!-- <option value="6">Winter</option> -->
+                </select>
+    </div>
+    <div class="form-group">
+
+      <label for="crop">Crop</label>
+
+                <select name="crop" id="crop" class="form-control">
+                  <option value="0">Arhar/Tur</option>
+                  <option value="1">Bajra</option>
+                  <option value="2">Banana</option>
+                  <option value="3">Castor seed</option>
+                  <option value="4">Cotton(lint)</option>
+                  <option value="5">Gram</option>
+                  <option value="6">Grapes</option>
+                  <option value="7">Groundnut</option>
+                  <option value="8">Jowar</option>
+                  <option value="9">Linseed</option>
+                  <option value="10">Maize</option>
+                  <option value="11">Mango</option>
+                  <option value="12">Moong(Green Gram)</option>
+                  <option value="13">Niger seed</option>
+                  <option value="14">Onion</option>
+                  <option value="15">Rabi pulses</option>
+                  <option value="16">Cereals & Millets</option>
+                  <option value="17">Kharif pulses</option>
+                  <option value="18">Ragi</option>
+                  <option value="10">Rapeseed &Mustard</option>
+                  <option value="20">Rice</option>
+                  <option value="21">Safflower</option>
+                  <option value="22">Sesamum</option>
+                  <option value="23">Small millets</option>
+                  <option value="24">Soyabean</option>
+                  <option value="25">Sugarcane</option>
+                  <option value="26">Sunflower</option>
+                  <option value="27">Tobacco</option>
+                  <option value="28">Tomato</option>
+                  <option value="29">Urad</option>
+                  <option value="30">Wheat</option>
+                  <option value="31">oilseeds</option>
+                </select>
+    </div>
+
+    <div class="form-group">
+
+      <label for="soil_type">Soil_type</label>
+
+                <select name="soil_type" id="soil"  class="form-control">
+                  <!-- <option value="1">Autumn</option> -->
+                  <option value="0">chalky</option>
+                  <option value="1">clay</option>
+                  <option value="2">loamy</option>
+                  <option value="3">peaty</option>
+                  <option value="3">sandy</option>
+                  <option value="3">silt</option>
+                  <!-- <option value="6">Winter</option> -->
+                </select>
+    <!-- <div class="form-group">
+
+      <label for="Nitrogen" style="font-size: 17px"><b>Temperature</b></label>
+      <input type="number" name="Temperature" class="form-control" value="{{temp}}" required>
+    </div>
+    <div class="form-group">
+
+      <label for="Nitrogen" style="font-size: 17px"><b>humidity</b></label>
+      <input type="number" name="humidity" class="form-control" value="{{hum}}" required>
+    </div>
+    <div class="form-group">
+
+      <label for="Nitrogen" style="font-size: 17px"><b>soilmoisture</b></label>
+      <input type="number" name="soilmoisture" class="form-control" placeholder="Enter soilmoisture value" required>
+    </div> -->
+    <div class="form-group">
+
+      <label for="Area" style="font-size: 17px"><b>area</b></label>
+      <input  type="number" step="0.01" name="area" class="form-control" placeholder="Enter area in hector" required>
+    </div>
+
+    <!-- <div class="form-group">
+      <label for="State" style="font-size: 17px "><b>State</b></label>
+      <select
+        onchange="print_city1('state', this.selectedIndex);"
+        id="sts"
+        name="stt"
+        class="form-control"
+        style="font-weight: bold; color: black;"
+        
+        required
+      ></select>
+      <br />
+      <label for="City" style="font-size: 17px"><b>District</b></label>
+      <select
+        id="state"
+        class="form-control"
+        name="city"
+        style="font-weight: bold; color: black;"
+        required
+      ></select>
+      <script language="javascript">
+        print_state1("sts");
+      </script>
+    </div> -->
+     <!--    <input
+        type="number"
+        class="form-control"
+        id="Nitrogen"
+        name="nitrogen"
+        placeholder="Enter the value (example:50)"
+        style="font-weight: bold"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="Phosphorous" style="font-size: 17px"
+        ><b>Phosphorous</b></label
+      >
+      <input
+        type="number"
+        class="form-control"
+        id="Phosphorous"
+        name="phosphorous"
+        placeholder="Enter the value (example:50)"
+        style="font-weight: bold"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+    <label for="Pottasium" style="font-size: 17px"><b>Pottasium</b></label>
+      <input
+        type="number"
+        class="form-control"
+        id="Pottasium"
+        name="pottasium"
+        placeholder="Enter the value (example:50)"
+        style="font-weight: bold"
+        required
+
+    </div>
+    <div class="form-group">
+<label for="ph" style="font-size: 17px"><b>ph level</b></label>
+      <input
+        type="number"
+        step="0.01"
+        class="form-control"
+        id="ph"
+        name="ph"
+        placeholder="Enter the value"
+        style="font-weight: bold"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="Rainfall" style="font-size: 17px"><b>Rainfall (in mm)</b></label>
+      <input
+        type="number"
+        step="0.01"
+        class="form-control"
+        id="Rainfall"
+        name="rainfall"
+        placeholder="Enter the value"
+        style="font-weight: bold"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="State" style="font-size: 17px "><b>State</b></label>
+      <select
+        onchange="print_city('state', this.selectedIndex);"
+        id="sts"
+        name="stt"
+        class="form-control"
+        style="font-weight: bold; color: black;"
+        
+        required
+      ></select>
+      <br />
+      <label for="City" style="font-size: 17px"><b>City</b></label>
+      <select
+        id="state"
+        class="form-control"
+        name="city"
+        style="font-weight: bold; color: black;"
+        required
+      ></select>
+      <script language="javascript">
+        print_state("sts");
+      </script>
+    </div>-->
+
+    <div class="d-flex justify-content-center">
+      <button
+        type="submit"
+        class="btn btn-info"
+        style="color: black; font-weight: bold; width: 130px; height:50px; border-radius:12px; font-size: 21px;"
+      >
+        Predict
+      </button>
+    </div>
+  </form>
+</div>
+
+
+
+<!-- Form section -->
+
+{% endblock %}
